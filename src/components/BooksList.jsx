@@ -1,6 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import { Button, Container, Row } from "react-bootstrap";
+import { Button, Container, FormControl, Row } from "react-bootstrap";
 import fantasy from "../data/books/fantasy.json";
 import history from "../data/books/history.json";
 import horror from "../data/books/horror.json";
@@ -11,7 +11,8 @@ import SingleBook from "./singleBook";
 
 class BooksList extends Component {
   state = {
-    books: fantasy
+    books: fantasy,
+    filteredBooks: ""
   };
 
   render() {
@@ -32,10 +33,26 @@ class BooksList extends Component {
           </Button>
           <Button onClick={() => this.setState({ books: scifi })}>Scifi</Button>
         </div>
+
+        <FormControl
+          type="text"
+          placeholder="filtra i libri"
+          value={this.state.filteredBooks}
+          className="d-flex mb-3 w-50 mx-auto"
+          role="search"
+          onChange={(e) => this.setState({ filteredBooks: e.target.value })}
+        />
+
         <Row className="justify-content-center">
-          {this.state.books.map((book) => (
-            <SingleBook key={book.asin} src={book.img} title={book.title} />
-          ))}
+          {this.state.books
+            .filter((book) =>
+              book.title
+                .toLowerCase()
+                .includes(this.state.filteredBooks.toLocaleLowerCase())
+            )
+            .map((book) => (
+              <SingleBook key={book.asin} src={book.img} title={book.title} />
+            ))}
         </Row>
       </Container>
     );

@@ -26,6 +26,7 @@ class SingleBook extends Component {
             variant="top"
             src={this.props.src}
             style={{ height: "350px" }}
+            className="p-3"
           />
           <Card.Body className="pb-2">
             <Card.Title
